@@ -1,0 +1,18 @@
+---
+- hosts: all
+  become: true
+  tasks:
+  - name: building docker image
+    command: docker build -t simple-devops-image:latest .
+    args:
+      chdir: /opt/docker
+
+  - name: tag docker image
+    command: docker tag simple-devops-image gpreeth/simple-devops-image
+
+  - name: push docker image
+    command: docker push gpreeth/simple-devops-image
+
+  - name: remove docker image
+    command: docker rmi gpreeth/simple-devops-image:latest simple-devops-image:latest
+    ignore_errors: yes
